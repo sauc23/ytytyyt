@@ -5,7 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 
-const target = 'https://womginx.arph.org/';
+const target = 'https://phantomgames.dev/';
 
 // Create the proxy middleware
 const mathProxy = createProxyMiddleware({
