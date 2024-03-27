@@ -5,7 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 
-const target = 'https://www.blackbox.ai/';
+const target = 'https://womginx.arph.org/';
 
 // Create the proxy middleware
 const mathProxy = createProxyMiddleware({
