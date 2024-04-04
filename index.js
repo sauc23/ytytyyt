@@ -5,7 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 
-const target = 'https://phantomgames.dev/';
+const target = 'http://185.177.125.251:8080';
 
 // Create the proxy middleware
 const mathProxy = createProxyMiddleware({
