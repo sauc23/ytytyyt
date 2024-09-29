@@ -5,7 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 
-const target = 'http://195.128.249.36:808';
+const target = 'https://example.com';
 
 // Create the proxy middleware
 // Create the proxy middleware
