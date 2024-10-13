@@ -5,7 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 
-const target = 'https://example.com';
+const target = 'http://streamgeek.xyz:25461';
 
 // Create the proxy middleware
 // Create the proxy middleware
