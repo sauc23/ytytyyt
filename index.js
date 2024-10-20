@@ -5,7 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 
-const target = 'http://streamgeek.xyz:25461';
+const target = 'http://jmrk.xyz:3050';
 
 // Create the proxy middleware
 const mathProxy = createProxyMiddleware({
