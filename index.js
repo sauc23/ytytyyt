@@ -7,7 +7,6 @@ const app = express();
 
 const target = 'http://streamgeek.xyz:25461';
 
-// Create the proxy middleware 
 // Create the proxy middleware
 const mathProxy = createProxyMiddleware({
   target,
