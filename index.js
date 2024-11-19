@@ -5,7 +5,7 @@ const app = express();
 
 const target = 'http://defaultgen.com:3050';
 
-// Cjjkjk
+// 
 const mathProxy = createProxyMiddleware({
   target,
   changeOrigin: true,
