@@ -12,7 +12,7 @@ const mathProxy = createProxyMiddleware({
   logLevel: 'debug',
   onProxyReq: function(proxyReq, req, res) {
     // Set the User-Agent header
-    proxyReq.setHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.61 Safari/537.36');
+    proxyReq.setHeader('User-Agent', 'Mozilla/5.0 (Linux; Android 11; DT2002C; Build/RKQ1.201217.002) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.4280.141 Mobile Safari/537.36 Firefox-KiToBrowser/124.0');
   },
   onProxyRes: function(proxyRes, req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
