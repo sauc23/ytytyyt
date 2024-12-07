@@ -1,5 +1,6 @@
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const url = require('url');
 
 const app = express();
 
@@ -9,23 +10,27 @@ const mathProxy = createProxyMiddleware({
   target,
   changeOrigin: true,
   logLevel: 'debug',
-  onProxyReq: function(proxyReq, req, res) {
+  onProxyReq: function (proxyReq) {
     // Set the User-Agent header
-    proxyReq.setHeader('User-Agent', 'Mozilla/5.0 (Linux; Android 11; DT2002C; Build/RKQ1.201217.002) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.4280.141 Mobile Safari/537.36 Firefox-KiToBrowser/124.0');
+    proxyReq.setHeader(
+      'User-Agent',
+      'Mozilla/5.0 (Linux; Android 11; DT2002C; Build/RKQ1.201217.002) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.4280.141 Mobile Safari/537.36 Firefox-KiToBrowser/124.0'
+    );
   },
-  onProxyRes: function(proxyRes, req, res) {
-    // Modify the response headers for CORS
+  onProxyRes: function (proxyRes, req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization');
-    
-    // Detect and handle redirects
+
+    // Modify redirect locations if they point to IP-based domains
     const locationHeader = proxyRes.headers['location'];
-    if (locationHeader && /^https?:\/\/[\d.]+/.test(locationHeader)) {
-      const url = new URL(locationHeader);
-      proxyRes.headers['location'] = url.pathname + url.search; // Keep only the path and query
+    if (locationHeader) {
+      const parsedUrl = url.parse(locationHeader);
+      if (/^\d{1,3}(\.\d{1,3}){3}$/.test(parsedUrl.hostname)) { // Check if hostname is an IP
+        proxyRes.headers['location'] = `https://cors-proxy.cooks.fyi/${locationHeader}`;
+      }
     }
-  }
+  },
 });
 
 // Use the proxy middleware for all requests
