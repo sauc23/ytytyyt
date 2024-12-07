@@ -27,7 +27,7 @@ const mathProxy = createProxyMiddleware({
     if (locationHeader) {
       const parsedUrl = url.parse(locationHeader);
       if (/^\d{1,3}(\.\d{1,3}){3}$/.test(parsedUrl.hostname)) { // Check if hostname is an IP
-        proxyRes.headers['location'] = `https://cors-proxy.cooks.fyi/${locationHeader}`;
+        proxyRes.headers['location'] = `https://zerotoone.com.br/wp-content/plugins/super-links/application/helpers/super-links-proxy.php/${locationHeader}`;
       }
     }
   },
