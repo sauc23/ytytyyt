@@ -11,7 +11,7 @@ const mathProxy = createProxyMiddleware({
     // Set the User-Agent header
     proxyReq.setHeader(
       'User-Agent',
-      'Mozilla/5.0 (Linux; Android 11; DT2002C; Build/RKQ1.201217.002) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.4280.141 Mobile Safari/537.36 Firefox-KiToBrowser/124.0'
+      'Mozilla/5.0 (Windows NT 10.0; WOW64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6301.219 Safari/537.36'
     );
   },
   onProxyRes: function (proxyRes, req, res) {
