@@ -1,11 +1,8 @@
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const url = require('url');
-
 const app = express();
-
 const target = 'http://defaultgen.com:3050';
-
 const mathProxy = createProxyMiddleware({
   target,
   changeOrigin: true,
