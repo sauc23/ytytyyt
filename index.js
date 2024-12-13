@@ -1,51 +1,32 @@
 const express = require('express');
 const axios = require('axios');
-const { PassThrough } = require('stream');
+const cheerio = require('cheerio');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 3000;
 
-// Proxy endpoint
-app.get('/vid/:id.mp4', async (req, res) => {
-    const videoId = req.params.id;
-    const url = `https://inv.nadeko.net/latest_version?id=${videoId}`;
-
+app.get('*', async (req, res) => {
     try {
-        // Make a request to the original URL to get the redirect
-        const response = await axios.get(url, { maxRedirects: 0 });
-        const redirectUrl = response.headers.location;
-
-        // Now make a request to the redirect URL to get the video content
-        const videoResponse = await axios.get(redirectUrl, {
-            responseType: 'stream'
+        // Construct the URL for the request
+        const targetUrl = `https://invidious.jing.rocks${req.originalUrl}`;
+        
+        // Fetch the original response from invidious
+        const response = await axios.get(targetUrl);
+        
+        // Load the HTML into cheerio
+        const $ = cheerio.load(response.data);
+        
+        // Modify the href attributes
+        $('a[href^="/watch?v="]').each((i, element) => {
+            const id = $(element).attr('href').split('=')[1];
+            $(element).attr('href', `https://edit.jdx3.org/yt.php?id=${id}`);
         });
-
-        // Set the appropriate headers for video streaming
-        res.setHeader('Content-Type', 'video/mp4');
-        res.setHeader('Content-Disposition', 'inline');
-
-        // Pipe the video stream to the response
-        videoResponse.data.pipe(res);
+        
+        // Send the modified HTML back to the client
+        res.send($.html());
     } catch (error) {
-        if (error.response && error.response.status === 302) {
-            // Handle the redirect manually
-            const redirectUrl = error.response.headers.location;
-
-            // Make a request to the redirect URL to get the video content
-            const videoResponse = await axios.get(redirectUrl, {
-                responseType: 'stream'
-            });
-
-            // Set the appropriate headers for video streaming
-            res.setHeader('Content-Type', 'video/mp4');
-            res.setHeader('Content-Disposition', 'inline');
-
-            // Pipe the video stream to the response
-            videoResponse.data.pipe(res);
-        } else {
-            // Handle other errors
-            res.status(500).send('Error fetching video link');
-        }
+        console.error('Error fetching the page:', error);
+        res.status(500).send('An error occurred while fetching the page.');
     }
 });
 
